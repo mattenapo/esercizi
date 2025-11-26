@@ -41,3 +41,4 @@ class PublisherHandler(tornado.web.RequestHandler):
     def delete(self, publisher_id):
         publishers_collection.delete_one({'_id': ObjectId(publisher_id)})
         self.write({"status": "deleted"})
+
