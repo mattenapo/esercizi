@@ -37,3 +37,7 @@ class PublisherHandler(tornado.web.RequestHandler):
         data = json.loads(self.request.body)
         publishers_collection.update_one({'_id': ObjectId(publisher_id)}, {'$set': data})
         self.write({"status": "updated"})
+
+    def delete(self, publisher_id):
+        publishers_collection.delete_one({'_id': ObjectId(publisher_id)})
+        self.write({"status": "deleted"})
