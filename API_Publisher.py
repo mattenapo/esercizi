@@ -10,3 +10,19 @@ publishers_collection = db["publishers"]
 books_collection = db["books"]
 
 class PublisherHandler(tornado.web.RequestHandler):
+    def get(self, publisher_id = None):
+        query = {}
+        if publisher_id:
+            query['_id'] = ObjectId(publisher_id)
+        else:
+            name = self.get_argument('name', None)
+            country = self.get_argument('country', None)
+            if name:
+                query['name'] = name
+            if country:
+                query['country'] = country
+        publishers = list(publishers_collection.find(query))
+        for p in publishers:
+            p['_id'] = str(p['_id'])
+        self.set_header("Content-Type", "application/json")
+        self.write(json.dumps(publishers))
