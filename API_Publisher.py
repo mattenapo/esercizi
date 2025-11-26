@@ -42,3 +42,5 @@ class PublisherHandler(tornado.web.RequestHandler):
         publishers_collection.delete_one({'_id': ObjectId(publisher_id)})
         self.write({"status": "deleted"})
 
+
+class BookHandler(tornado.web.RequestHandler):
