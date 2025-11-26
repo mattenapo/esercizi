@@ -85,3 +85,4 @@ class BookHandler(tornado.web.RequestHandler):
     def delete(self, book_id):
         books_collection.delete_one({'_id': ObjectId(book_id)})
         self.write({"status": "deleted"})
+
