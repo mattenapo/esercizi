@@ -76,3 +76,8 @@ class BookHandler(tornado.web.RequestHandler):
         result = books_collection.insert_one(data)
         self.set_header("Content-Type", "application/json")
         self.write({"inserted_id": str(result.inserted_id)})
+
+    def put(self, book_id):
+        data = json.loads(self.request.body)
+        books_collection.update_one({'_id': ObjectId(book_id)}, {'$set': data})
+        self.write({"status": "updated"})
