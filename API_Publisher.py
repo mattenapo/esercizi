@@ -95,3 +95,8 @@ app = tornado.web.Application([
     (r"/books", BookHandler),
     (r"/books/([0-9a-fA-F]{24})", BookHandler),
 ])
+
+if __name__ == "__main__":
+    app.listen(8888)
+    print("Server avviato su http://localhost:8888")
+    tornado.ioloop.IOLoop.current().start()
