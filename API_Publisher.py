@@ -86,3 +86,12 @@ class BookHandler(tornado.web.RequestHandler):
         books_collection.delete_one({'_id': ObjectId(book_id)})
         self.write({"status": "deleted"})
 
+
+app = tornado.web.Application([
+    (r"/publishers", PublisherHandler),
+    (r"/publishers/([0-9a-fA-F]{24})", PublisherHandler),
+    (r"/publishers/([0-9a-fA-F]{24})/books", BookHandler),
+    (r"/publishers/([0-9a-fA-F]{24})/books/([0-9a-fA-F]{24})", BookHandler),
+    (r"/books", BookHandler),
+    (r"/books/([0-9a-fA-F]{24})", BookHandler),
+])
