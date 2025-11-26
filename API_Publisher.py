@@ -32,3 +32,8 @@ class PublisherHandler(tornado.web.RequestHandler):
         result = publishers_collection.insert_one(data)
         self.set_header("Content-Type", "application/json")
         self.write({"inserted_id": str(result.inserted_id)})
+
+    def put(self, publisher_id):
+        data = json.loads(self.request.body)
+        publishers_collection.update_one({'_id': ObjectId(publisher_id)}, {'$set': data})
+        self.write({"status": "updated"})
