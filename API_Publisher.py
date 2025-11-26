@@ -44,3 +44,27 @@ class PublisherHandler(tornado.web.RequestHandler):
 
 
 class BookHandler(tornado.web.RequestHandler):
+    def get(self, publisher_id=None, book_id=None):
+        query = {}
+        if publisher_id:
+            query['publisher_id'] = ObjectId(publisher_id)
+        if book_id:
+            query['_id'] = ObjectId(book_id)
+        title = self.get_argument('title', None)
+        author = self.get_argument('author', None)
+        genre = self.get_argument('genre', None)
+        if title:
+            query['title'] = title
+        if author:
+            query['author'] = author
+        if genre:
+            query['genre'] = genre
+
+        cursor = books_collection.find(query)
+        books = []
+        for doc in cursor:
+            doc['_id'] = str(doc['_id'])
+            doc['publisher_id'] = str(doc['publisher_id'])
+            books.append(doc)
+        self.set_header("Content-Type", "application/json")
+        self.write(json.dumps(books))
