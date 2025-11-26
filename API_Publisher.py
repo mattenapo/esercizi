@@ -26,3 +26,9 @@ class PublisherHandler(tornado.web.RequestHandler):
             p['_id'] = str(p['_id'])
         self.set_header("Content-Type", "application/json")
         self.write(json.dumps(publishers))
+
+    def post(self):
+        data = json.loads(self.request.body)
+        result = publishers_collection.insert_one(data)
+        self.set_header("Content-Type", "application/json")
+        self.write({"inserted_id": str(result.inserted_id)})
