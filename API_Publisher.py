@@ -68,3 +68,11 @@ class BookHandler(tornado.web.RequestHandler):
             books.append(doc)
         self.set_header("Content-Type", "application/json")
         self.write(json.dumps(books))
+
+    def post(self, publisher_id=None):
+        data = json.loads(self.request.body)
+        if publisher_id:
+            data['publisher_id'] = ObjectId(publisher_id)
+        result = books_collection.insert_one(data)
+        self.set_header("Content-Type", "application/json")
+        self.write({"inserted_id": str(result.inserted_id)})
