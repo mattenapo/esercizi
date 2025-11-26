@@ -81,3 +81,7 @@ class BookHandler(tornado.web.RequestHandler):
         data = json.loads(self.request.body)
         books_collection.update_one({'_id': ObjectId(book_id)}, {'$set': data})
         self.write({"status": "updated"})
+
+    def delete(self, book_id):
+        books_collection.delete_one({'_id': ObjectId(book_id)})
+        self.write({"status": "deleted"})
